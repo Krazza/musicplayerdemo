@@ -1,25 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import nature from "./assets/nature.mp3";
+import risk from "./assets/risk.mp3";
+import weekends from "./assets/weekends.mp3";
+import { PlayerControls } from './components/playerControls';
+import { Tracklist } from './components/Tracklist';
+import { MusicContext } from './contexts/MusicContext';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [state, setState] = useState({
+        audioPlayer: new Audio(),
+        tracks: [
+            {
+                name: "Nature inspired music",
+                file: nature
+            },
+            {
+                name: "Risk inspired music",
+                file: risk
+            },
+            {
+                name: "Weekends inspired music",
+                file: weekends
+            }
+        ],
+        currentTrackIndex: null,
+        isPlaying: false,
+    })
+
+    return (
+        <MusicContext.Provider value = {[state, setState]}>
+            <div className="App">
+                <Tracklist/>
+                <PlayerControls/>
+            </div>
+        </MusicContext.Provider>
+    );
 }
 
 export default App;
